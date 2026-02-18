@@ -25,16 +25,22 @@ jobs:
   Welcome_new_user-envs:
     name: Welcome_job
     runs-on: ubuntu-latest
+    environment: Env-test
     steps:
       - name: Welcome new user - ${{env.YOUR_NAME}}
         run: echo "Welcome ${{env.YOUR_NAME}}"
       - name: Starting_day - ${{env.DAY_OF_WEEK}}
         run: echo "${{env.YOUR_NAME}}, you start a work on ${{env.DAY_OF_WEEK}}"
+      - name: Environment varaibles and secrets
+        run: |
+          echo "Environment var: ${{ vars.VAR_ENVS }}"
+          echo "Environment secret: ${{ secrets.SECRET_ENV }}" # In logs ***
+          echo "Variables action: ${{ vars.NEW_REPO_VAR }}"
+          echo "Secrets action: ${{ secrets.REPO_SECRET }}" # In logs ***
   
   Environment_access-if:
     name: Environment_access
     runs-on: ubuntu-latest
-    environment: Env-test
     if: github.event.inputs.environment
     steps:
       - name: Environment access - ${{github.event.inputs.environment}}
@@ -43,10 +49,6 @@ jobs:
       - name: Environment access - ${{github.event.inputs.environment}}
         if: github.event.inputs.environment == 'test' || github.event.inputs.environment == 'prod'
         run: echo "You get an access to ${{github.event.inputs.environment}}"
-      - name: Użycie zmiennej i sekretu
-        run: |
-          echo "Environment var: ${{ vars.VAR_ENVS }}"
-          echo "Environment secret: ${{ secrets.SECRET_ENV }}" # In logs ***
   Onboarding_finished:
     name: Onboarding_finish
     needs:
