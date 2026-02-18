@@ -22,13 +22,24 @@ env:
   
 jobs:
   Welcome_new_user:
-    name: 1st_job
+    name: Welcome_job
     runs-on: ubuntu-latest
     steps:
-      - name: Welcome new user
+      - name: Welcome new user - ${{env.YOUR_NAME}}
         run: echo "Welcome ${{env.YOUR_NAME}}"
-      - name: Starting_day
+      - name: Starting_day - ${{env.DAY_OF_WEEK}}
         run: echo "${{env.YOUR_NAME}}, you start a work on ${{env.DAY_OF_WEEK}}"
+  
+  Environment_access:
+    name: Environment_access
+    runs-on:
+      - ubuntu-latest
+      - ubuntu-slim
+    steps:
+      - name: Environemt access - ${{github.event.inputs.environment}}
+        if: github.event.inputs.environment == 'dev'
+        run: echo "You get an access to ${{github.event.inputs.environment}}
+    
         
       
     
