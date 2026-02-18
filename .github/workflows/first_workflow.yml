@@ -73,7 +73,7 @@ jobs:
         run: echo "You get an access to ${{github.event.inputs.environment}}"
       - name: Var from the previous jobs -  Welcome_new_user-envs
         run: |
-          "echo VAR: ${{ needs.Welcome_new_user-envs.outputs.output_var }}"
+          echo "VAR: ${{ needs.Welcome_new_user-envs.outputs.output_var }}"
       
   Onboarding_finished:
     name: Onboarding_finish
