@@ -49,7 +49,7 @@ jobs:
           echo "Environment var: ${{ vars.VAR_ENVS }}"
           echo "Environment secret: ${{ secrets.SECRET_ENV }}" # In logs ***
           # Workflow
-          echo "Workflow: ${{ env.DAY_OF_WEEK }}
+          echo "Workflow: ${{ env.DAY_OF_WEEK }}"
           # Repository Settings
           echo "Variables action: ${{ vars.NEW_REPO_VAR }}"
           echo "Secrets action: ${{ secrets.REPO_SECRET }}" # In logs ***
