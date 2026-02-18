@@ -39,7 +39,7 @@ jobs:
           echo "Environment secret: ${{ secrets.SECRET_ENV }}" # In logs ***
           echo "Variables action: ${{ vars.NEW_REPO_VAR }}"
           echo "Secrets action: ${{ secrets.REPO_SECRET }}" # In logs ***
-          echo "Test Var inside jobs-steps: ${{ env.TestVar }}
+          echo "Test Var inside jobs-steps: ${{ env.TestVar }}"
   
   Environment_access-if:
     name: Environment_access
