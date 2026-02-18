@@ -32,9 +32,7 @@ jobs:
   
   Environment_access:
     name: Environment_access
-    runs-on:
-      - ubuntu-latest
-      - ubuntu-slim
+    runs-on: ubuntu-latest
     steps:
       - name: Environemt access - ${{github.event.inputs.environment}}
         if: github.event.inputs.environment == 'dev'
