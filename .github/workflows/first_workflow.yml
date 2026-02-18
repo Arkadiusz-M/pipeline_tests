@@ -54,8 +54,8 @@ jobs:
           echo "Variables action: ${{ vars.NEW_REPO_VAR }}"
           echo "Secrets action: ${{ secrets.REPO_SECRET }}" # In logs ***
           # GitHub Env
-          echo "GitHub env: ${{ StepEnvVar }}"
-  
+          echo "GitHub env: ${{ env.StepEnvVar }}"
+          
   Environment_access-if:
     name: Environment_access
     runs-on: ubuntu-latest
@@ -67,6 +67,7 @@ jobs:
       - name: Environment access - ${{github.event.inputs.environment}}
         if: github.event.inputs.environment == 'test' || github.event.inputs.environment == 'prod'
         run: echo "You get an access to ${{github.event.inputs.environment}}"
+  
   Onboarding_finished:
     name: Onboarding_finish
     needs:
