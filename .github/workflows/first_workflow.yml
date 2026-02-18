@@ -28,7 +28,7 @@ jobs:
       - name: Welcome new user
         run: echo "Welcome ${{env.YOUR_NAME}}"
       - name: Starting_day
-        run: echo "${{env.YOUR_NAME, you start a work on ${{env.DAY_OF_WEEK}}"
+        run: echo "${{env.YOUR_NAME}}, you start a work on ${{env.DAY_OF_WEEK}}"
         
       
     
