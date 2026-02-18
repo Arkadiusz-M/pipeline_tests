@@ -36,7 +36,7 @@ jobs:
     steps:
       - name: Environemt access - ${{github.event.inputs.environment}}
         if: github.event.inputs.environment == 'dev'
-        run: echo "You get an access to ${{github.event.inputs.environment}}
+        run: echo "You get an access to ${{github.event.inputs.environment}}"
     
         
       
