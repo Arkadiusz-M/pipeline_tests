@@ -25,6 +25,8 @@ jobs:
   Welcome_new_user-envs:
     name: Welcome_job
     runs-on: ubuntu-latest
+    env:
+      JobVar: JobVar
     environment: Env-test
     steps:
       - name: Welcome new user - ${{env.YOUR_NAME}}
@@ -33,13 +35,20 @@ jobs:
         run: echo "${{env.YOUR_NAME}}, you start a work on ${{env.DAY_OF_WEEK}}"
       - name: Environment varaibles and secrets
         env:
-          TestVar: TestVar
+          StepVar: StepVar
         run: |
+          # Step
+          echo "StepVar: ${{ env.StepVar }}"
+          # Job
+          echo "JobVar: ${{ env.JobVar }}"
+          # Environment
           echo "Environment var: ${{ vars.VAR_ENVS }}"
           echo "Environment secret: ${{ secrets.SECRET_ENV }}" # In logs ***
+          # Workflow
+          echo "Workflow: ${{ env.DAY_OF_WEEK }}
+          # Repository Settings
           echo "Variables action: ${{ vars.NEW_REPO_VAR }}"
           echo "Secrets action: ${{ secrets.REPO_SECRET }}" # In logs ***
-          echo "Test Var inside jobs-steps: ${{ env.TestVar }}"
   
   Environment_access-if:
     name: Environment_access
