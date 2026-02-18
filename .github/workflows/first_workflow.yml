@@ -33,6 +33,10 @@ jobs:
         run: echo "Welcome ${{env.YOUR_NAME}}"
       - name: Starting_day - ${{env.DAY_OF_WEEK}}
         run: echo "${{env.YOUR_NAME}}, you start a work on ${{env.DAY_OF_WEEK}}"
+      - name: GitHub ENV
+        run : echo "StepEnvVar=StepEnvVar" >> $GITHUB_ENV
+      - name: GitHub OUTPUT
+        run : echo "StepEnvOutput=StepEnvOutput" >> $GITHUB_ENV
       - name: Environment varaibles and secrets
         env:
           StepVar: StepVar
@@ -49,6 +53,8 @@ jobs:
           # Repository Settings
           echo "Variables action: ${{ vars.NEW_REPO_VAR }}"
           echo "Secrets action: ${{ secrets.REPO_SECRET }}" # In logs ***
+          # GitHub Env
+          echo "GitHub env: ${{ StepEnvVar }}"
   
   Environment_access-if:
     name: Environment_access
