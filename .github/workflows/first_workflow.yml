@@ -62,8 +62,9 @@ jobs:
   Environment_access-if:
     name: Environment_access
     needs: Welcome_new_user-envs
+    if: needs.Welcome_new_user-envs.outputs.output_var == 'run_deploy' 
     runs-on: ubuntu-latest
-    if: github.event.inputs.environment
+    # if: github.event.inputs.environment
     steps:
       - name: Environment access - ${{github.event.inputs.environment}}
         if: github.event.inputs.environment == 'dev'
