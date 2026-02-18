@@ -34,9 +34,13 @@ jobs:
     name: Environment_access
     runs-on: ubuntu-latest
     steps:
-      - name: Environemt access - ${{github.event.inputs.environment}}
+      - name: Environment access - ${{github.event.inputs.environment}}
         if: github.event.inputs.environment == 'dev'
         run: echo "You get an access to ${{github.event.inputs.environment}}"
+      - name: Environment access - ${{github.event.inputs.environment}}
+        if: github.event.inputs.environment == 'test' || github.event.inputs.environment == 'prod'
+        run: echo "You get an access to ${{github.event.inputs.environment}}"
+        
     
         
       
