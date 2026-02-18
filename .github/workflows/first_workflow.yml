@@ -32,11 +32,14 @@ jobs:
       - name: Starting_day - ${{env.DAY_OF_WEEK}}
         run: echo "${{env.YOUR_NAME}}, you start a work on ${{env.DAY_OF_WEEK}}"
       - name: Environment varaibles and secrets
+        env:
+          TestVar: TestVar
         run: |
           echo "Environment var: ${{ vars.VAR_ENVS }}"
           echo "Environment secret: ${{ secrets.SECRET_ENV }}" # In logs ***
           echo "Variables action: ${{ vars.NEW_REPO_VAR }}"
           echo "Secrets action: ${{ secrets.REPO_SECRET }}" # In logs ***
+          echo "Test Var inside jobs-steps: ${{ env.TestVar }}
   
   Environment_access-if:
     name: Environment_access
