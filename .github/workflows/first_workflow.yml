@@ -1,0 +1,34 @@
+name: First workflow
+run-name: "Run by @${{ github.actor }}. Branch ${{ github.ref_name }}. Deploying build:${{ inputs.build_id }} "
+on:
+  workflow_dispatch: 
+    inputs:
+      Name:
+        description: "Please provide your name"
+        required: true
+        default: "Name was not provided"
+      environment: 
+        description: "Please choose environment?"
+        required: false
+        type: choice
+        options:
+          - dev
+          - test
+          - prod
+              
+env:
+  DAY_OF_WEEK: Monday
+  YOUR_NAME: KATE
+  
+jobs:
+  Welcome_new_user:
+    name: 1st_job
+    runs-on: ubuntu-latest
+    steps:
+      - name: Welcome new user
+        run: echo "Welcome ${{env.YOUR_NAME}}"
+      - name: Starting_day
+        run: echo "${{env.YOUR_NAME, you start a work on ${{env.DAY_OF_WEEK}}"
+        
+      
+    
