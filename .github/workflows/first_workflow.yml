@@ -45,13 +45,13 @@ jobs:
         run: echo "You get an access to ${{github.event.inputs.environment}}"
       - name: Użycie zmiennej i sekretu
         run: |
-          echo "Wdrażam na adres: ${{ vars.VAR_ENVS }}"
-          echo "Używam klucza: ${{ secrets.SECRET_ENV }}" # W logach zobaczysz ***
+          echo "Environment var: ${{ vars.VAR_ENVS }}"
+          echo "Environment secret: ${{ secrets.SECRET_ENV }}" # In logs ***
   Onboarding_finished:
     name: Onboarding_finish
     needs:
-      - Welcome_new_user
-      - Environment_access
+      - Welcome_new_user-envs
+      - Environment_access-if
     runs-on: ubuntu-latest
     steps:
       - name: Onboarding finished 
