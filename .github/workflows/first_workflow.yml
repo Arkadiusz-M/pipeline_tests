@@ -29,7 +29,7 @@ jobs:
       JobVar: JobVar
     environment: Env-test
     outputs:
-      output_var: ${{ steps.StepEnvOutput.outputs.version }} # Env redirect to other job
+      output_var: ${{ steps.StepEnvOutput.outputs.StepEnvOutput }} # Env redirect to other job
     steps:
       - name: Welcome new user - ${{env.YOUR_NAME}}
         run: echo "Welcome ${{env.YOUR_NAME}}"
