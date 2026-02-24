@@ -147,6 +147,9 @@ jobs:
           df -h # sprawdzenie miejsca na dysku
           free -m # sprawdzenie RAMu (tylko na Linux)
           echo "::endgroup::"
+          # Dodaj to na samym końcu bloku run:
+          echo "--- DEBUG ---"
+          cat $GITHUB_STEP_SUMMARY
           # - name: Tabelaryczny Raport
           #         run: |
           #           echo "| Cecha | Wartość |" >> $GITHUB_STEP_SUMMARY
