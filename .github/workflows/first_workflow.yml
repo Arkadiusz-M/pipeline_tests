@@ -2,6 +2,7 @@
 name: First workflow
 run-name: "Run by @${{ github.actor }}. Branch ${{ github.ref_name }}. Deploying build:${{ inputs.build_id }} "
 on:
+  push:
   workflow_dispatch: 
     inputs:
       Name:
@@ -86,23 +87,23 @@ jobs:
     steps:
       - name: Onboarding finished 
         run: echo "Onboarding finished"
-  If_conditionals:
-    name: If_conditionals
-    runs-on: ubuntu-20.04
-    # if: success() || cancelled()
-    steps:
-      - name: condition_1
-        if: runner.os == 'Ubuntu'
-        run: echo "The operating system on the runner is $env:RUNNER_OS."
-      - name: conditional_2
-        if: runner.os != 'Ubuntu'
-        run: echo "The operating system on the runner is not Ubuntu, it's $RUNNER_OS."
-      - name: conditional_3_branch_maine
-        if: github.ref == 'refs/heads/main'
-        run: echo "It is branch main!"
-      - name: conditional_3_branch_main
-        if: github.ref != 'refs/heads/main'
-        run: echo "It is ${{ github.ref_name }}!"
+  # If_conditionals:
+    # name: If_conditionals
+    # runs-on: ubuntu-20.04
+    # # if: success() || cancelled()
+    # steps:
+    #   - name: condition_1
+    #     if: runner.os == 'Ubuntu'
+    #     run: echo "The operating system on the runner is $env:RUNNER_OS."
+    #   - name: conditional_2
+    #     if: runner.os != 'Ubuntu'
+    #     run: echo "The operating system on the runner is not Ubuntu, it's $RUNNER_OS."
+    #   - name: conditional_3_branch_maine
+    #     if: github.ref == 'refs/heads/main'
+    #     run: echo "It is branch main!"
+    #   - name: conditional_3_branch_main
+    #     if: github.ref != 'refs/heads/main'
+    #     run: echo "It is ${{ github.ref_name }}!"
 
   workflow-commands:
     runs-on: ubuntu-latest
