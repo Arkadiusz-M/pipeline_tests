@@ -2,7 +2,7 @@
 name: First workflow
 run-name: "Run by @${{ github.actor }}. Branch ${{ github.ref_name }}. Deploying build:${{ inputs.build_id }} "
 on:
-  push:
+  # push:
   workflow_dispatch: 
     inputs:
       Name:
