@@ -125,31 +125,31 @@ jobs:
           echo "- Lets add a bullet point" >> $GITHUB_STEP_SUMMARY
           echo "- Lets add a second bullet point" >> $GITHUB_STEP_SUMMARY
           echo "- How about a third one?" >> $GITHUB_STEP_SUMMARY
-    workflow-commands2:
-      runs-on: ubuntu-latest
-      # https://docs.github.com/en/actions/reference/workflows-and-actions/workflow-commands?tool=bash
-      steps:              
-        - name: Raport o maszynie
-          run: |
-            # 1. Pobieramy dane z systemu (CLI maszyny)
-            OS_INFO=$(uname -a)
-            UPTIME=$(uptime -p)
-            USER_NAME=$(whoami)
-      
-            # 2. Wysyłamy dane do "mózgu" GitHuba (Summary)
-            echo "## 🖥️ Statystyki maszyny" >> $GITHUB_STEP_SUMMARY
-            echo "* **System:** $OS_INFO" >> $GITHUB_STEP_SUMMARY
-            echo "* **Czas pracy:** $UPTIME" >> $GITHUB_STEP_SUMMARY
-            echo "* **Uruchomiono jako:** $USER_NAME" >> $GITHUB_STEP_SUMMARY
-            
-            # 3. Grupowanie w logach, żeby nie zaśmiecać widoku głównego
-            echo "::group::Szczegóły techniczne"
-            df -h # sprawdzenie miejsca na dysku
-            free -m # sprawdzenie RAMu (tylko na Linux)
-            echo "::endgroup::"
+  workflow-commands2:
+    runs-on: ubuntu-latest
+    # https://docs.github.com/en/actions/reference/workflows-and-actions/workflow-commands?tool=bash
+    steps:              
+      - name: Raport o maszynie
+        run: |
+          # 1. Pobieramy dane z systemu (CLI maszyny)
+          OS_INFO=$(uname -a)
+          UPTIME=$(uptime -p)
+          USER_NAME=$(whoami)
+    
+          # 2. Wysyłamy dane do "mózgu" GitHuba (Summary)
+          echo "## 🖥️ Statystyki maszyny" >> $GITHUB_STEP_SUMMARY
+          echo "* **System:** $OS_INFO" >> $GITHUB_STEP_SUMMARY
+          echo "* **Czas pracy:** $UPTIME" >> $GITHUB_STEP_SUMMARY
+          echo "* **Uruchomiono jako:** $USER_NAME" >> $GITHUB_STEP_SUMMARY
+          
+          # 3. Grupowanie w logach, żeby nie zaśmiecać widoku głównego
+          echo "::group::Szczegóły techniczne"
+          df -h # sprawdzenie miejsca na dysku
+          free -m # sprawdzenie RAMu (tylko na Linux)
+          echo "::endgroup::"
           # - name: Tabelaryczny Raport
           #         run: |
           #           echo "| Cecha | Wartość |" >> $GITHUB_STEP_SUMMARY
           #           echo "|-------|---------|" >> $GITHUB_STEP_SUMMARY
           #           echo "| System | $(uname -s) |" >> $GITHUB_STEP_SUMMARY
-                    echo "| Użytkownik | $(whoami) |" >> $GITHUB_STEP_SUMMARY
+                    # echo "| Użytkownik | $(whoami) |" >> $GITHUB_STEP_SUMMARY
