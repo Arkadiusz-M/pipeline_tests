@@ -89,6 +89,7 @@ jobs:
   If_conditionals:
     name: If_conditionals
     runs-on: ubuntu-20.04
+    if: success() || cancelled()
     steps:
       - name: condition_1
         if: runner.os == 'Ubuntu'
