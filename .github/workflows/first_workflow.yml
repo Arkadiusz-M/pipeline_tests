@@ -115,6 +115,7 @@ jobs:
             echo "Inside group"
             echo "::endgroup::"
             echo "::add-mask::Mona The Octocat"
+            echo "Mona The Octocat"
       - name: Summary
         run: echo "### Hello world! :rocket:" >> $GITHUB_STEP_SUMMARY
       - name: Generate list using Markdown
