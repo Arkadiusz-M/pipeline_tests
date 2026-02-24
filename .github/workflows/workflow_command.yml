@@ -1,0 +1,53 @@
+name: workflow_command
+
+on:
+  # push:
+    # branches: [ "main" ]
+  workflow_dispatch: # Pozwala uruchomić pipeline ręcznie przyciskiem
+
+jobs:
+  demonstracja-funkcji:
+    runs-on: ubuntu-latest
+    
+    steps:
+      # 1. Pobranie kodu z repozytorium
+      - name: Checkout kodu
+        uses: actions/checkout@v4
+
+      # 2. Praca ze zmiennymi i GITHUB_ENV
+      - name: Ustawienie dynamicznej zmiennej
+        run: |
+          echo "DATA_URUCHOMIENIA=$(date +'%Y-%m-%d %H:%M:%S')" >> $GITHUB_ENV
+          echo "WERSJA_SYSTEMU=$(uname -s)" >> $GITHUB_ENV
+
+      # 3. Generowanie raportu STEP_SUMMARY
+      - name: Tworzenie raportu wizualnego
+        run: |
+          echo "## 📊 Raport z wykonania" >> $GITHUB_STEP_SUMMARY
+          echo "| Parametr | Wartość |" >> $GITHUB_STEP_SUMMARY
+          echo "| :--- | :--- |" >> $GITHUB_STEP_SUMMARY
+          echo "| 📅 Data | $DATA_URUCHOMIENIA |" >> $GITHUB_STEP_SUMMARY
+          echo "| 🐧 System | $WERSJA_SYSTEMU |" >> $GITHUB_STEP_SUMMARY
+          echo "| 👤 Użytkownik | ${{ github.actor }} |" >> $GITHUB_STEP_SUMMARY
+          echo "" >> $GITHUB_STEP_SUMMARY
+          echo "✅ Wszystkie dane zostały pomyślnie przetworzone przez agenta." >> $GITHUB_STEP_SUMMARY
+
+      # 4. Grupowanie logów (estetyka w CLI)
+      - name: Detale techniczne (Logi)
+        run: |
+          echo "::group::Kliknij tutaj, aby zobaczyć szczegóły"
+          echo "Wykonywanie komend na maszynie..."
+          ls -R
+          env | grep GITHUB
+          echo "::endgroup::"
+
+      # 5. Instrukcja warunkowa (IF)
+      - name: Specjalny krok tylko dla autora
+        # Ten krok uruchomi się tylko, jeśli Ty (Arkadiusz-M) wypchniesz kod
+        if: github.actor == 'Arkadiusz-M'
+        run: echo "Witaj Arkadiuszu! Ten krok widzą tylko wybrani."
+
+      # 6. Obsługa błędów (FAILURE)
+      - name: Krok na wypadek błędu
+        if: failure()
+        run: echo "Coś poszło nie tak w poprzednich krokach!"
