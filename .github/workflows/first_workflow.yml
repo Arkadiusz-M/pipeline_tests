@@ -24,69 +24,69 @@ env:
   YOUR_NAME: KATE
   
 jobs:
-  Welcome_new_user-envs:
-    name: Welcome_job
-    runs-on: ubuntu-latest
-    env:
-      JobVar: JobVar
-    environment: Env-test
-    outputs:
-      output_var: ${{ steps.StepEnvOutput.outputs.StepEnvOutput }} # Env redirect to other job
-    steps:
-      - name: Welcome new user - ${{env.YOUR_NAME}}
-        run: echo "Welcome ${{env.YOUR_NAME}}"
-      - name: Starting_day - ${{env.DAY_OF_WEEK}}
-        run: echo "${{env.YOUR_NAME}}, you start a work on ${{env.DAY_OF_WEEK}}"
-      - name: GitHub ENV
-        run : echo "StepEnvVar=StepEnvVar" >> $GITHUB_ENV
-      - name: GitHub OUTPUT
-        id: StepEnvOutput
-        run : echo "StepEnvOutput=StepEnvOutput" >> $GITHUB_OUTPUT
-      - name: Environment varaibles and secrets
-        env:
-          StepVar: StepVar
-        run: |
-          # Step
-          echo "StepVar: ${{ env.StepVar }}"
-          # Job
-          echo "JobVar: ${{ env.JobVar }}"
-          # Environment
-          echo "Environment var: ${{ vars.VAR_ENVS }}"
-          echo "Environment secret: ${{ secrets.SECRET_ENV }}" # In logs ***
-          # Workflow
-          echo "Workflow: ${{ env.DAY_OF_WEEK }}"
-          # Repository Settings
-          echo "Variables action: ${{ vars.NEW_REPO_VAR }}"
-          echo "Secrets action: ${{ secrets.REPO_SECRET }}" # In logs ***
-          # GitHub Env
-          echo "GitHub env: ${{ env.StepEnvVar }}"
+  # Welcome_new_user-envs:
+  #   name: Welcome_job
+  #   runs-on: ubuntu-latest
+  #   env:
+  #     JobVar: JobVar
+  #   environment: Env-test
+  #   outputs:
+  #     output_var: ${{ steps.StepEnvOutput.outputs.StepEnvOutput }} # Env redirect to other job
+  #   steps:
+  #     - name: Welcome new user - ${{env.YOUR_NAME}}
+  #       run: echo "Welcome ${{env.YOUR_NAME}}"
+  #     - name: Starting_day - ${{env.DAY_OF_WEEK}}
+  #       run: echo "${{env.YOUR_NAME}}, you start a work on ${{env.DAY_OF_WEEK}}"
+  #     - name: GitHub ENV
+  #       run : echo "StepEnvVar=StepEnvVar" >> $GITHUB_ENV
+  #     - name: GitHub OUTPUT
+  #       id: StepEnvOutput
+  #       run : echo "StepEnvOutput=StepEnvOutput" >> $GITHUB_OUTPUT
+  #     - name: Environment varaibles and secrets
+  #       env:
+  #         StepVar: StepVar
+        # run: |
+        #   # Step
+        #   echo "StepVar: ${{ env.StepVar }}"
+        #   # Job
+        #   echo "JobVar: ${{ env.JobVar }}"
+        #   # Environment
+        #   echo "Environment var: ${{ vars.VAR_ENVS }}"
+        #   echo "Environment secret: ${{ secrets.SECRET_ENV }}" # In logs ***
+        #   # Workflow
+        #   echo "Workflow: ${{ env.DAY_OF_WEEK }}"
+        #   # Repository Settings
+        #   echo "Variables action: ${{ vars.NEW_REPO_VAR }}"
+        #   echo "Secrets action: ${{ secrets.REPO_SECRET }}" # In logs ***
+        #   # GitHub Env
+        #   echo "GitHub env: ${{ env.StepEnvVar }}"
           
-  Environment_access-if:
-    name: Environment_access
-    needs: Welcome_new_user-envs
-    if: needs.Welcome_new_user-envs.outputs.output_var != 'run_deploy' 
-    runs-on: ubuntu-latest
-    # if: github.event.inputs.environment
-    steps:
-      - name: Environment access - ${{github.event.inputs.environment}}
-        if: github.event.inputs.environment == 'dev'
-        run: echo "You get an access to ${{github.event.inputs.environment}}"
-      - name: Environment access - ${{github.event.inputs.environment}}
-        if: github.event.inputs.environment == 'test' || github.event.inputs.environment == 'prod'
-        run: echo "You get an access to ${{github.event.inputs.environment}}"
-      - name: Var from the previous jobs -  Welcome_new_user-envs
-        run: |
-          echo "VAR: ${{ needs.Welcome_new_user-envs.outputs.output_var }}"
+  # Environment_access-if:
+  #   name: Environment_access
+  #   needs: Welcome_new_user-envs
+  #   if: needs.Welcome_new_user-envs.outputs.output_var != 'run_deploy' 
+  #   runs-on: ubuntu-latest
+  #   # if: github.event.inputs.environment
+  #   steps:
+  #     - name: Environment access - ${{github.event.inputs.environment}}
+  #       if: github.event.inputs.environment == 'dev'
+  #       run: echo "You get an access to ${{github.event.inputs.environment}}"
+  #     - name: Environment access - ${{github.event.inputs.environment}}
+  #       if: github.event.inputs.environment == 'test' || github.event.inputs.environment == 'prod'
+  #       run: echo "You get an access to ${{github.event.inputs.environment}}"
+  #     - name: Var from the previous jobs -  Welcome_new_user-envs
+  #       run: |
+  #         echo "VAR: ${{ needs.Welcome_new_user-envs.outputs.output_var }}"
       
-  Onboarding_finished:
-    name: Onboarding_finish
-    needs:
-      - Welcome_new_user-envs
-      - Environment_access-if
-    runs-on: ubuntu-latest
-    steps:
-      - name: Onboarding finished 
-        run: echo "Onboarding finished"
+  # Onboarding_finished:
+  #   name: Onboarding_finish
+  #   needs:
+  #     - Welcome_new_user-envs
+  #     - Environment_access-if
+  #   runs-on: ubuntu-latest
+  #   steps:
+  #     - name: Onboarding finished 
+  #       run: echo "Onboarding finished"
   # If_conditionals:
     # name: If_conditionals
     # runs-on: ubuntu-20.04
@@ -105,26 +105,26 @@ jobs:
     #     if: github.ref != 'refs/heads/main'
     #     run: echo "It is ${{ github.ref_name }}!"
 
-  workflow-commands:
-    runs-on: ubuntu-latest
-    # https://docs.github.com/en/actions/reference/workflows-and-actions/workflow-commands?tool=bash
-    steps:
-      - name: Group of log lines
-        run: |
-            echo "::group::My title"
-            echo "Inside group"
-            echo "::endgroup::"
-            echo "::add-mask::Mona The Octocat"
-            echo "Mona The Octocat"
-      - name: Summary
-        run: echo "### Hello world! :rocket:" >> $GITHUB_STEP_SUMMARY
-      - name: Generate list using Markdown
-        run: |
-          echo "This is the lead in sentence for the list" >> $GITHUB_STEP_SUMMARY
-          echo "" >> $GITHUB_STEP_SUMMARY # this is a blank line
-          echo "- Lets add a bullet point" >> $GITHUB_STEP_SUMMARY
-          echo "- Lets add a second bullet point" >> $GITHUB_STEP_SUMMARY
-          echo "- How about a third one?" >> $GITHUB_STEP_SUMMARY
+  # workflow-commands:
+  #   runs-on: ubuntu-latest
+  #   # https://docs.github.com/en/actions/reference/workflows-and-actions/workflow-commands?tool=bash
+  #   steps:
+  #     - name: Group of log lines
+  #       run: |
+  #           echo "::group::My title"
+  #           echo "Inside group"
+  #           echo "::endgroup::"
+  #           echo "::add-mask::Mona The Octocat"
+  #           echo "Mona The Octocat"
+  #     - name: Summary
+  #       run: echo "### Hello world! :rocket:" >> $GITHUB_STEP_SUMMARY
+  #     - name: Generate list using Markdown
+  #       run: |
+  #         echo "This is the lead in sentence for the list" >> $GITHUB_STEP_SUMMARY
+  #         echo "" >> $GITHUB_STEP_SUMMARY # this is a blank line
+  #         echo "- Lets add a bullet point" >> $GITHUB_STEP_SUMMARY
+  #         echo "- Lets add a second bullet point" >> $GITHUB_STEP_SUMMARY
+  #         echo "- How about a third one?" >> $GITHUB_STEP_SUMMARY
   workflow-commands2:
     runs-on: ubuntu-latest
     # https://docs.github.com/en/actions/reference/workflows-and-actions/workflow-commands?tool=bash
