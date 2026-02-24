@@ -125,7 +125,10 @@ jobs:
           echo "- Lets add a bullet point" >> $GITHUB_STEP_SUMMARY
           echo "- Lets add a second bullet point" >> $GITHUB_STEP_SUMMARY
           echo "- How about a third one?" >> $GITHUB_STEP_SUMMARY
-              
+  workflow-commands2:
+    runs-on: ubuntu-latest
+    # https://docs.github.com/en/actions/reference/workflows-and-actions/workflow-commands?tool=bash
+    steps:              
       - name: Raport o maszynie
         run: |
           # 1. Pobieramy dane z systemu (CLI maszyny)
@@ -144,3 +147,9 @@ jobs:
           df -h # sprawdzenie miejsca na dysku
           free -m # sprawdzenie RAMu (tylko na Linux)
           echo "::endgroup::"
+        # - name: Tabelaryczny Raport
+        #         run: |
+        #           echo "| Cecha | Wartość |" >> $GITHUB_STEP_SUMMARY
+        #           echo "|-------|---------|" >> $GITHUB_STEP_SUMMARY
+        #           echo "| System | $(uname -s) |" >> $GITHUB_STEP_SUMMARY
+                  echo "| Użytkownik | $(whoami) |" >> $GITHUB_STEP_SUMMARY
