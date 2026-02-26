@@ -8,7 +8,11 @@ on:
   # schedule:
   #   - cron: '0 3 * * SUN'  
   workflow_dispatch: 
-              
+
+concurrency:
+  group: deploy-${{ github.ref }}
+  cancel-in-progress: true
+          
 jobs:
   build_artifact:
     name: Build and publish artifact
