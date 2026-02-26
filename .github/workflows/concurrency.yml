@@ -30,6 +30,9 @@ jobs:
     steps:
       - name: Checkout code
         uses: actions/checkout@v4
+        with:
+          # Fetch all history so we can push back to the branch
+          fetch-depth: 0
 
       - name: Install dependencies
         run: echo "npm install"
@@ -73,23 +76,31 @@ jobs:
       - name: Update README and Summary
         if: always()
         run: |
-          # 1. Build the report content
+          # 1. Prepare the report content
           REPORT="## 🚀 Deployment Status
           | Metric | Value |
           | :--- | :--- |
           | Environment | ${{ github.ref_name == 'master' && 'PRODUCTION' || 'DEVELOPMENT' }} |
           | Branch | ${{ github.ref_name }} |
-          | Status | ✅ Success |"
-      
-          # 2. Write to GITHUB_STEP_SUMMARY (Action's UI preview)
+          | Status | ✅ Success |
+          | Date | $(date +'%Y-%m-%d %H:%M:%S') |"
+
+          # 2. Write to the Magic Summary variable
           echo "$REPORT" >> $GITHUB_STEP_SUMMARY
-  
-          # 3. Append the report to README.md
+
+          # 3. Append to README
           echo -e "\n$REPORT" >> README.md
-  
-          # 4. Automate commit and push changes
+
+          # 4. Git Operations with error handling
           git config --global user.name "github-actions[bot]"
           git config --global user.email "github-actions[bot]@users.noreply.github.com"
+          
           git add README.md
-          git commit -m "docs: update deployment status [skip ci]"
-          git push
+          
+          # Only commit and push if there are actual changes to README
+          if git diff --staged --quiet; then
+            echo "No changes to README.md. Skipping push."
+          else
+            git commit -m "docs: update deployment status [skip ci]"
+            git push
+          fi
