@@ -83,7 +83,7 @@ jobs:
         run: |
           # 1. Define the Badge and Report
           # Replace 'main.yml' with your actual workflow filename
-          BADGE="[![[Deployment Status](https://github.com/Arkadiusz-M/pipeline_tests/actions/workflows/concurrency.yml/badge.svg)](https://github.com/Arkadiusz-M/pipeline_tests/actions/workflows/concurrency.yml)]"
+          BADGE="![Deployment Status](https://github.com/${{ github.repository }}/actions/workflows/concurrency.yml/badge.svg)"
           REPORT="## 🚀 Deployment Status
           | Metric | Value |
           | :--- | :--- |
