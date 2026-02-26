@@ -81,7 +81,10 @@ jobs:
       - name: Update README and Summary
         if: always()
         run: |
-          # 1. Prepare the report content
+          # 1. Define the Badge and Report
+          # Replace 'main.yml' with your actual workflow filename
+          BADGE="![Deployment Status](https://github.com/${{ github.repository }}/actions/workflows/concurrency.yml/badge.svg)"
+
           REPORT="## 🚀 Deployment Status
           | Metric | Value |
           | :--- | :--- |
