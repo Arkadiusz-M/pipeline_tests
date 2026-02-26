@@ -9,6 +9,8 @@ on:
 # Prevent overlapping deployments on the same branch
 concurrency:
   group: deploy-${{ github.ref }}
+  # group: production-server # static - workflow or job
+  # group: deploy-${{ github.workflow }}-${{ github.ref }} # dynamic -  workflow or job
   cancel-in-progress: true
 
 jobs:
