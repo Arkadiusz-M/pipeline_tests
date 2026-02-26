@@ -74,7 +74,7 @@ jobs:
   If_conditional_1:
     name: If_conditional_1
     if: github.event.inputs.environment
-    runs-on: ubuntu-lates
+    runs-on: ubuntu-latest
     steps:
         - name: Environment access - ${{github.event.inputs.environment}}
           if: github.event.inputs.environment == 'dev'
@@ -94,12 +94,12 @@ jobs:
       - name: conditional_2
         if: runner.os != 'ubuntu-latest'
         run: echo "The operating system on the runner is not Ubuntu, it's $RUNNER_OS."
-      # - name: conditional_3_branch_maine
-      #   if: github.ref == 'refs/heads/main'
-      #   run: echo "It is branch main!"
-      # - name: conditional_3_branch_main
-      #   if: github.ref != 'refs/heads/main'
-      #   run: echo "It is ${{ github.ref_name }}!"
+      - name: conditional_3_branch_maine
+        if: github.ref == 'refs/heads/main'
+        run: echo "It is branch main!"
+      - name: conditional_3_branch_main
+        if: github.ref != 'refs/heads/main'
+        run: echo "It is ${{ github.ref_name }}!"
 
   # workflow-commands:
   #   runs-on: ubuntu-latest
