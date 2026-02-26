@@ -177,17 +177,10 @@ jobs:
     strategy:
       max-parallel: 2
       matrix:
-        version: [10, 12, 14]
-        os: [ubuntu-latest, windows-latest]
-
-jobs:
-  testy-aplikacji:
-    strategy:
-      matrix:
-        node: [18, 20, 22]
+        node: [10, 12, 14]
         version: [1,2,3]
         # os: [ubuntu-latest, windows-latest]
-      # runs-on: ${{ matrix.os }}
+    # runs-on: ${{ matrix.os }}
     steps:
       - name: Użyj Node.js ${{ matrix.node }}
         run: |
