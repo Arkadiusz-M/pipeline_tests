@@ -33,7 +33,7 @@ jobs:
         uses: actions/download-artifact@v4
         with:
           name: my-data
-          path: recovered-files/ # Folder where files will appear
+          path: downloaded_files/ # Folder where files will appear
 
       - name: Verify Download
         run: |
