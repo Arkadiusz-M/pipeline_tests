@@ -187,9 +187,9 @@ jobs:
         node: [18, 20, 22]
         version: [1,2,3]
         # os: [ubuntu-latest, windows-latest]
-      # runs-on: ${{ matrix.os }} # Dynamicznie wybiera system
+      # runs-on: ${{ matrix.os }}
     steps:
-      - uses: actions/checkout@v4
       - name: Użyj Node.js ${{ matrix.node }}
-        run: echo "Node:  ${{ matrix.node }}-${{ matrix.version }}"
+        run: |
+          echo "Node:  ${{ matrix.node }}-${{ matrix.version }}"
         
