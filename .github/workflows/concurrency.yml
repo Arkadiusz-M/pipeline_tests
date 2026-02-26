@@ -3,7 +3,7 @@ name: Concurrency - Dynamic Deployment Pipeline
 on:
   push:
     branches:
-      - master
+      - main
       - develop
 
 # Prevent overlapping deployments on the same branch
@@ -37,19 +37,19 @@ jobs:
     
     # Map branches to specific GitHub Environments
     environment:
-      name: ${{ github.ref_name == 'master' && 'Production' || 'Development' }}
-      url: ${{ github.ref_name == 'master' && 'https://prod.myapp.com' || 'https://dev.myapp.com' }}
+      name: ${{ github.ref_name == 'main' && 'Production' || 'Development' }}
+      url: ${{ github.ref_name == 'main' && 'https://prod.myapp.com' || 'https://dev.myapp.com' }}
 
     steps:
       - name: Display Deployment Info
         run: |
-          echo "🚀 Deploying to: ${{ github.ref_name == 'master' && 'PROD' || 'DEV' }} environment"
+          echo "🚀 Deploying to: ${{ github.ref_name == 'main' && 'PROD' || 'DEV' }} environment"
           echo "Target Branch: ${{ github.ref_name }}"
           echo "Triggered by: ${{ github.actor }}"
 
       # Conditional logic within steps
       - name: Production specific step
-        if: github.ref_name == 'master'
+        if: github.ref_name == 'main'
         run: echo "Performing heavy-duty production tasks..."
 
       - name: Development specific step
@@ -63,6 +63,6 @@ jobs:
           echo "## 🚀 Deployment Status" >> $GITHUB_STEP_SUMMARY
           echo "| Metric | Value |" >> $GITHUB_STEP_SUMMARY
           echo "| :--- | :--- |" >> $GITHUB_STEP_SUMMARY
-          echo "| Environment | ${{ github.ref_name == 'master' && 'PRODUCTION' || 'DEVELOPMENT' }} |" >> $GITHUB_STEP_SUMMARY
+          echo "| Environment | ${{ github.ref_name == 'main' && 'PRODUCTION' || 'DEVELOPMENT' }} |" >> $GITHUB_STEP_SUMMARY
           echo "| Branch | ${{ github.ref_name }} |" >> $GITHUB_STEP_SUMMARY
           echo "| Status | ✅ Success |" >> $GITHUB_STEP_SUMMARY
