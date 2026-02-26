@@ -88,18 +88,18 @@ jobs:
     runs-on: ubuntu-latest
     # if: success() || cancelled() 
     steps:
-      # - name: condition_1
-      #   if: runner.os == 'ubuntu-latest'
-      #   run: echo "The operating system on the runner is $env:RUNNER_OS."
-      # - name: conditional_2
-      #   if: runner.os != 'ubuntu-latest'
-      #   run: echo "The operating system on the runner is not Ubuntu, it's $RUNNER_OS."
-      - name: conditional_3_branch_maine
-        if: github.ref == 'refs/heads/main'
-        run: echo "It is branch main!"
-      - name: conditional_3_branch_main
-        if: github.ref != 'refs/heads/main'
-        run: echo "It is ${{ github.ref_name }}!"
+      - name: condition_1
+        if: runner.os == 'ubuntu-latest'
+        run: echo "The operating system on the runner is $env:RUNNER_OS."
+      - name: conditional_2
+        if: runner.os != 'ubuntu-latest'
+        run: echo "The operating system on the runner is not Ubuntu, it's $RUNNER_OS."
+      # - name: conditional_3_branch_maine
+      #   if: github.ref == 'refs/heads/main'
+      #   run: echo "It is branch main!"
+      # - name: conditional_3_branch_main
+      #   if: github.ref != 'refs/heads/main'
+      #   run: echo "It is ${{ github.ref_name }}!"
 
   # workflow-commands:
   #   runs-on: ubuntu-latest
