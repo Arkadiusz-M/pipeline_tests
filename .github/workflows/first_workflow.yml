@@ -1,4 +1,5 @@
 # variables - https://docs.github.com/en/actions/how-tos/write-workflows/choose-what-workflows-do/use-variables#default-environment-variables
+# context variables https://docs.github.com/en/actions/reference/workflows-and-actions/contexts
 name: First workflow
 run-name: "Run by @${{ github.actor }}. Branch ${{ github.ref_name }}. Deploying build:${{ inputs.build_id }} "
 on:
