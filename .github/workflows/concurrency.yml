@@ -58,6 +58,11 @@ jobs:
           url: ${{ vars.APP_URL }}
 
     steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+          
       - name: Display Deployment Info
         run: |
           echo "🚀 Deploying to: ${{ github.ref_name == 'main' && 'PROD' || 'DEV' }} environment"
