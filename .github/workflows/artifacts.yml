@@ -1,0 +1,41 @@
+name: Artifacts
+run-name: "Run by @${{ github.actor }}. Branch ${{ github.ref_name }}. Deploying build:${{ inputs.build_id }}"
+on:
+  # push:
+  #   branches: [ "main" ]
+  # pull_request:
+  #   branches: [ "main" ]
+  # schedule:
+  #   - cron: '0 3 * * SUN'  
+  workflow_dispatch: 
+              
+jobs:
+  build_artifact:
+    name: Build and publish artifact
+    runs-on: ubuntu-latest
+    steps:
+      - name: Create File
+        run: echo "Hello from Job A" > myfile.txt
+
+      - name: Upload
+        uses: actions/upload-artifact@v4
+        with:
+          name: my-data
+          path: myfile.txt
+          retention-days: 1
+  
+  donwload_artifact:
+    name: Download public artifact
+    needs: build_artifact
+    runs-on: ubuntu-latest
+    steps:
+      - name: Download
+        uses: actions/download-artifact@v4
+        with:
+          name: my-data
+          path: recovered-files/ # Folder where files will appear
+
+      - name: Verify Download
+        run: |
+          ls -R downloaded_files/
+          cat downloaded_files/myfile.txt
