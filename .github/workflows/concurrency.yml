@@ -93,10 +93,12 @@ jobs:
           | Date | $(date +'%Y-%m-%d %H:%M:%S') |"
 
           # 2. Write to the Magic Summary variable
+          echo "$BADGE" >> $GITHUB_STEP_SUMMARY
           echo "$REPORT" >> $GITHUB_STEP_SUMMARY
 
           # 3. Append to README
-          echo -e "\n$REPORT" >> ReadMe.md
+          echo "$BADGE" > README.tmp
+          echo -e "\n$REPORT" >> README.tmp
 
           # 4. Git Operations with error handling
           git config --global user.name "github-actions[bot]"
