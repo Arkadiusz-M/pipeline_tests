@@ -5,6 +5,14 @@ on:
     branches:
       - main
       - develop
+    paths-ignore:
+      - ReadMe.md
+
+
+# Grant write permissions to the GITHUB_TOKEN
+permissions:
+  contents: write
+      
 
 # Prevent overlapping deployments on the same branch
 concurrency:
@@ -62,13 +70,26 @@ jobs:
         if: github.ref_name == 'develop'
         run: echo "Performing rapid development sync..."
 
-      # Report to Step Summary
-      - name: Generate Summary
+      - name: Update README and Summary
         if: always()
         run: |
-          echo "## 🚀 Deployment Status" >> $GITHUB_STEP_SUMMARY
-          echo "| Metric | Value |" >> $GITHUB_STEP_SUMMARY
-          echo "| :--- | :--- |" >> $GITHUB_STEP_SUMMARY
-          echo "| Environment | ${{ github.ref_name == 'main' && 'PRODUCTION' || 'DEVELOPMENT' }} |" >> $GITHUB_STEP_SUMMARY
-          echo "| Branch | ${{ github.ref_name }} |" >> $GITHUB_STEP_SUMMARY
-          echo "| Status | ✅ Success |" >> $GITHUB_STEP_SUMMARY
+          # 1. Build the report content
+          REPORT="## 🚀 Deployment Status
+          | Metric | Value |
+          | :--- | :--- |
+          | Environment | ${{ github.ref_name == 'master' && 'PRODUCTION' || 'DEVELOPMENT' }} |
+          | Branch | ${{ github.ref_name }} |
+          | Status | ✅ Success |"
+      
+          # 2. Write to GITHUB_STEP_SUMMARY (Action's UI preview)
+          echo "$REPORT" >> $GITHUB_STEP_SUMMARY
+  
+          # 3. Append the report to README.md
+          echo -e "\n$REPORT" >> README.md
+  
+          # 4. Automate commit and push changes
+          git config --global user.name "github-actions[bot]"
+          git config --global user.email "github-actions[bot]@users.noreply.github.com"
+          git add README.md
+          git commit -m "docs: update deployment status [skip ci]"
+          git push
