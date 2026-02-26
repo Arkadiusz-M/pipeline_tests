@@ -101,72 +101,72 @@ jobs:
         if: github.ref != 'refs/heads/main'
         run: echo "It is ${{ github.ref_name }}!"
 
-  # workflow_commands_1:
-  #   name: workflow_commands_1
-  #   runs-on: ubuntu-latest
-  #   # https://docs.github.com/en/actions/reference/workflows-and-actions/workflow-commands?tool=bash
-  #   steps:
-  #     - name: Group of log lines
-  #       run: |
-  #           echo "::group::Logs"
-  #           echo "Logs - Inside group 1"
-  #           echo "Logs - Inside group 2"
-  #           echo "Logs - Inside group 3"
-  #           echo "::endgroup::"
-  #           echo "::add-mask::Mona The Octocat"
-  #           echo "This value should be masked: Mona The Octocat"
-  #     - name: Summary
-  #       run: echo "### Hello world! :rocket:" >> $GITHUB_STEP_SUMMARY
-  #     - name: Generate list using Markdown
-  #       run: |
-  #         echo "This is the lead in sentence for the list" >> $GITHUB_STEP_SUMMARY
-  #         echo "" >> $GITHUB_STEP_SUMMARY # this is a blank line
-  #         echo "- Lets add a bullet point" >> $GITHUB_STEP_SUMMARY
-  #         echo "- Lets add a second bullet point" >> $GITHUB_STEP_SUMMARY
-  #         echo "- How about a third one?" >> $GITHUB_STEP_SUMMARY
+  workflow_commands_1:
+    name: workflow_commands_1
+    runs-on: ubuntu-latest
+    # https://docs.github.com/en/actions/reference/workflows-and-actions/workflow-commands?tool=bash
+    steps:
+      - name: Group of log lines
+        run: |
+            echo "::group::Logs"
+            echo "Logs - Inside group 1"
+            echo "Logs - Inside group 2"
+            echo "Logs - Inside group 3"
+            echo "::endgroup::"
+            echo "::add-mask::Mona The Octocat"
+            echo "This value should be masked: Mona The Octocat"
+      - name: Summary
+        run: echo "### Hello world! :rocket:" >> $GITHUB_STEP_SUMMARY
+      - name: Generate list using Markdown
+        run: |
+          echo "This is the lead in sentence for the list" >> $GITHUB_STEP_SUMMARY
+          echo "" >> $GITHUB_STEP_SUMMARY # this is a blank line
+          echo "- Lets add a bullet point" >> $GITHUB_STEP_SUMMARY
+          echo "- Lets add a second bullet point" >> $GITHUB_STEP_SUMMARY
+          echo "- How about a third one?" >> $GITHUB_STEP_SUMMARY
           
   workflow-commands2:
     runs-on: ubuntu-latest
     # https://docs.github.com/en/actions/reference/workflows-and-actions/workflow-commands?tool=bash
     steps:
-      # 1. Pobranie kodu z repozytorium
-      - name: Checkout kodu
+      # 1. Checkout the code from the repository
+      - name: Checkout code
         uses: actions/checkout@v4
 
-      # 2. Praca ze zmiennymi i GITHUB_ENV
-      - name: Ustawienie dynamicznej zmiennej
+      # 2. Working with variables and GITHUB_ENV
+      - name: Set dynamic variables
         run: |
-          echo "DATA_URUCHOMIENIA=$(date +'%Y-%m-%d %H:%M:%S')" >> $GITHUB_ENV
-          echo "WERSJA_SYSTEMU=$(uname -s)" >> $GITHUB_ENV
+          echo "RUN_DATE=$(date +'%Y-%m-%d %H:%M:%S')" >> $GITHUB_ENV
+          echo "OS_VERSION=$(uname -s)" >> $GITHUB_ENV
 
-      # 3. Generowanie raportu STEP_SUMMARY
-      - name: Tworzenie raportu wizualnego
+      # 3. Generating the STEP_SUMMARY report
+      - name: Create visual summary
         run: |
-          echo "## 📊 Raport z wykonania" >> $GITHUB_STEP_SUMMARY
-          echo "| Parametr | Wartość |" >> $GITHUB_STEP_SUMMARY
+          echo "## 📊 Execution Report" >> $GITHUB_STEP_SUMMARY
+          echo "| Parameter | Value |" >> $GITHUB_STEP_SUMMARY
           echo "| :--- | :--- |" >> $GITHUB_STEP_SUMMARY
-          echo "| 📅 Data | $DATA_URUCHOMIENIA |" >> $GITHUB_STEP_SUMMARY
-          echo "| 🐧 System | $WERSJA_SYSTEMU |" >> $GITHUB_STEP_SUMMARY
-          echo "| 👤 Użytkownik | ${{ github.actor }} |" >> $GITHUB_STEP_SUMMARY
+          echo "| 📅 Date | $RUN_DATE |" >> $GITHUB_STEP_SUMMARY
+          echo "| 🐧 System | $OS_VERSION |" >> $GITHUB_STEP_SUMMARY
+          echo "| 👤 User | ${{ github.actor }} |" >> $GITHUB_STEP_SUMMARY
           echo "" >> $GITHUB_STEP_SUMMARY
-          echo "✅ Wszystkie dane zostały pomyślnie przetworzone przez agenta." >> $GITHUB_STEP_SUMMARY
+          echo "✅ All data has been successfully processed by the agent." >> $GITHUB_STEP_SUMMARY
 
-      # 4. Grupowanie logów (estetyka w CLI)
-      - name: Detale techniczne (Logi)
+      # 4. Grouping logs (CLI aesthetics)
+      - name: Technical Details (Logs)
         run: |
-          echo "::group::Kliknij tutaj, aby zobaczyć szczegóły"
-          echo "Wykonywanie komend na maszynie..."
+          echo "::group::Click here to see details"
+          echo "Executing commands on the runner..."
           ls -R
           env | grep GITHUB
           echo "::endgroup::"
 
-      # 5. Instrukcja warunkowa (IF)
-      - name: Specjalny krok tylko dla autora
-        # Ten krok uruchomi się tylko, jeśli Ty (Arkadiusz-M) wypchniesz kod
+      # 5. Conditional statement (IF)
+      - name: Special step for the author only
+        # This step will only run if you (Arkadiusz-M) push the code
         if: github.actor == 'Arkadiusz-M'
-        run: echo "Witaj Arkadiuszu! Ten krok widzą tylko wybrani."
+        run: echo "Hello Arkadiusz! This step is visible to selected users only."
 
-      # 6. Obsługa błędów (FAILURE)
-      - name: Krok na wypadek błędu
+      # 6. Error handling (FAILURE)
+      - name: Error fallback step
         if: failure()
-        run: echo "Coś poszło nie tak w poprzednich krokach!"
+        run: echo "Something went wrong in the previous steps!"
