@@ -1,3 +1,4 @@
+[![Concurrency - Dynamic Deployment Pipeline](https://github.com/Arkadiusz-M/pipeline_tests/actions/workflows/concurrency.yml/badge.svg)](https://github.com/Arkadiusz-M/pipeline_tests/actions/workflows/concurrency.yml)
 ReadMe.md
 
 ## 🚀 Deployment Status
