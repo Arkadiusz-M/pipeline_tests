@@ -89,13 +89,15 @@ jobs:
           echo "$REPORT" >> $GITHUB_STEP_SUMMARY
 
           # 3. Append to README
-          echo -e "\n$REPORT" >> README.md
+          echo -e "\n$REPORT" >> ReadMe.md
 
           # 4. Git Operations with error handling
           git config --global user.name "github-actions[bot]"
           git config --global user.email "github-actions[bot]@users.noreply.github.com"
-          
-          git add README.md
+
+          git status
+          git add ReadMe.md
+          git status
           
           # Only commit and push if there are actual changes to README
           if git diff --staged --quiet; then
