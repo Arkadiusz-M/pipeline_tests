@@ -78,40 +78,49 @@ jobs:
         if: github.ref_name == 'develop'
         run: echo "Performing rapid development sync..."
 
-      - name: Update README and Summary
+      - name: Update README with Status and Badge
         if: always()
         run: |
-          # 1. Define the Badge and Report
-          # Replace 'main.yml' with your actual workflow filename
+          # 1. Prepare the Badge (Use your ACTUAL filename, e.g., concurrency.yml)
+          # Note: The URL must point to the .yml file in .github/workflows/
           BADGE="![Deployment Status](https://github.com/${{ github.repository }}/actions/workflows/concurrency.yml/badge.svg)"
-          REPORT="## 🚀 Deployment Status
+          
+          # 2. Build the full Report content
+          REPORT="
+          $BADGE
+
+          ## 🚀 Latest Deployment Report
           | Metric | Value |
           | :--- | :--- |
           | Environment | ${{ github.ref_name == 'master' && 'PRODUCTION' || 'DEVELOPMENT' }} |
           | Branch | ${{ github.ref_name }} |
-          | Status | ✅ Success |
-          | Date | $(date +'%Y-%m-%d %H:%M:%S') |"
+          | Status | ${{ job.status == 'success' && '✅ Success' || '❌ Failed' }} |
+          | Updated At | $(date +'%Y-%m-%d %H:%M:%S') |
+          
+          ---
+          "
 
-          # 2. Write to the Magic Summary variable
-          echo "$BADGE" >> $GITHUB_STEP_SUMMARY
+          # 3. Magic: Write to Summary (GitHub UI)
           echo "$REPORT" >> $GITHUB_STEP_SUMMARY
 
-          # 3. Append to README
-          echo "$BADGE" > README.tmp
-          echo -e "\n$REPORT" >> README.tmp
+          # 4. Update README.md without losing existing content
+          # We create a new file, put the report first, then append the OLD readme
+          if [ -f README.md ]; then
+            echo "$REPORT" > README.new
+            cat README.md >> README.new
+            mv README.new README.md
+          else
+            echo "$REPORT" > README.md
+          fi
 
-          # 4. Git Operations with error handling
+          # 5. Git Push (The part that actually updates the file in your repo)
           git config --global user.name "github-actions[bot]"
           git config --global user.email "github-actions[bot]@users.noreply.github.com"
-
-          git status
-          git add ReadMe.md
-          git status
           
-          # Only commit and push if there are actual changes to README
+          git add README.md
           if git diff --staged --quiet; then
             echo "No changes to README.md. Skipping push."
           else
-            git commit -m "docs: update deployment status [skip ci]"
+            git commit -m "docs: update status and badge [skip ci]"
             git push
           fi
