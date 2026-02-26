@@ -11,6 +11,7 @@ concurrency:
   group: deploy-${{ github.ref }}
   # group: production-server # static - workflow or job
   # group: deploy-${{ github.workflow }}-${{ github.ref }} # dynamic -  workflow or job
+  # group: ${{ github.workflow }}-${{ github.event.pull_request.number || github.ref }} 
   cancel-in-progress: true
 
 jobs:
