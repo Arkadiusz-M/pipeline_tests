@@ -128,31 +128,45 @@ jobs:
   workflow-commands2:
     runs-on: ubuntu-latest
     # https://docs.github.com/en/actions/reference/workflows-and-actions/workflow-commands?tool=bash
-    steps:              
-      - name: Raport o maszynie
+    steps:
+      # 1. Pobranie kodu z repozytorium
+      - name: Checkout kodu
+        uses: actions/checkout@v4
+
+      # 2. Praca ze zmiennymi i GITHUB_ENV
+      - name: Ustawienie dynamicznej zmiennej
         run: |
-          # 1. Pobieramy dane z systemu (CLI maszyny)
-          OS_INFO=$(uname -a)
-          UPTIME=$(uptime -p)
-          USER_NAME=$(whoami)
-    
-          # 2. Wysyłamy dane do "mózgu" GitHuba (Summary)
-          echo "## 🖥️ Statystyki maszyny" >> $GITHUB_STEP_SUMMARY
-          echo "* **System:** $OS_INFO" >> $GITHUB_STEP_SUMMARY
-          echo "* **Czas pracy:** $UPTIME" >> $GITHUB_STEP_SUMMARY
-          echo "* **Uruchomiono jako:** $USER_NAME" >> $GITHUB_STEP_SUMMARY
-          
-          # 3. Grupowanie w logach, żeby nie zaśmiecać widoku głównego
-          echo "::group::Szczegóły techniczne"
-          df -h # sprawdzenie miejsca na dysku
-          free -m # sprawdzenie RAMu (tylko na Linux)
+          echo "DATA_URUCHOMIENIA=$(date +'%Y-%m-%d %H:%M:%S')" >> $GITHUB_ENV
+          echo "WERSJA_SYSTEMU=$(uname -s)" >> $GITHUB_ENV
+
+      # 3. Generowanie raportu STEP_SUMMARY
+      - name: Tworzenie raportu wizualnego
+        run: |
+          echo "## 📊 Raport z wykonania" >> $GITHUB_STEP_SUMMARY
+          echo "| Parametr | Wartość |" >> $GITHUB_STEP_SUMMARY
+          echo "| :--- | :--- |" >> $GITHUB_STEP_SUMMARY
+          echo "| 📅 Data | $DATA_URUCHOMIENIA |" >> $GITHUB_STEP_SUMMARY
+          echo "| 🐧 System | $WERSJA_SYSTEMU |" >> $GITHUB_STEP_SUMMARY
+          echo "| 👤 Użytkownik | ${{ github.actor }} |" >> $GITHUB_STEP_SUMMARY
+          echo "" >> $GITHUB_STEP_SUMMARY
+          echo "✅ Wszystkie dane zostały pomyślnie przetworzone przez agenta." >> $GITHUB_STEP_SUMMARY
+
+      # 4. Grupowanie logów (estetyka w CLI)
+      - name: Detale techniczne (Logi)
+        run: |
+          echo "::group::Kliknij tutaj, aby zobaczyć szczegóły"
+          echo "Wykonywanie komend na maszynie..."
+          ls -R
+          env | grep GITHUB
           echo "::endgroup::"
-          # Dodaj to na samym końcu bloku run:
-          echo "--- DEBUG ---"
-          cat $GITHUB_STEP_SUMMARY
-          - name: Tabelaryczny Raport
-            run: |
-              echo "| Cecha | Wartość |" >> $GITHUB_STEP_SUMMARY
-              echo "|-------|---------|" >> $GITHUB_STEP_SUMMARY
-              echo "| System | $(uname -s) |" >> $GITHUB_STEP_SUMMARY
-              echo "| Użytkownik | $(whoami) |" >> $GITHUB_STEP_SUMMARY
+
+      # 5. Instrukcja warunkowa (IF)
+      - name: Specjalny krok tylko dla autora
+        # Ten krok uruchomi się tylko, jeśli Ty (Arkadiusz-M) wypchniesz kod
+        if: github.actor == 'Arkadiusz-M'
+        run: echo "Witaj Arkadiuszu! Ten krok widzą tylko wybrani."
+
+      # 6. Obsługa błędów (FAILURE)
+      - name: Krok na wypadek błędu
+        if: failure()
+        run: echo "Coś poszło nie tak w poprzednich krokach!"
