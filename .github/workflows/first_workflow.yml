@@ -68,7 +68,9 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: Var from the previous jobs -  Variables
-        run: echo "VAR: ${{ needs.Variables.outputs.output_var }}"
+        run: |
+          echo "VAR: ${{ needs.Variables.outputs.output_var }}"
+        
   If_conditional_1:
     name: If_conditional_1
     if: github.event.inputs.environment
