@@ -37,8 +37,11 @@ jobs:
     
     # Map branches to specific GitHub Environments
     environment:
-      name: ${{ github.ref_name == 'main' && 'Production' || 'Development' }}
-      url: ${{ github.ref_name == 'main' && 'https://prod.myapp.com' || 'https://dev.myapp.com' }}
+          # STEP 1: Selecting the "box" (Environment selection)
+          name: ${{ github.ref_name == 'master' && 'Production' || 'Development' }}
+          
+          # STEP 2: Fetching the content (Context-based variable retrieval)
+          url: ${{ vars.APP_URL }}
 
     steps:
       - name: Display Deployment Info
