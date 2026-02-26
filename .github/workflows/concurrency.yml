@@ -7,7 +7,7 @@ on:
       - develop
     paths-ignore:
       - ReadMe.md
-
+  workflow_dispatch: 
 
 # Grant write permissions to the GITHUB_TOKEN
 permissions:
