@@ -126,6 +126,7 @@ jobs:
           echo "- How about a third one?" >> $GITHUB_STEP_SUMMARY
           
   workflow-commands2:
+    name:  workflow-commands2
     runs-on: ubuntu-latest
     # https://docs.github.com/en/actions/reference/workflows-and-actions/workflow-commands?tool=bash
     steps:
@@ -170,3 +171,25 @@ jobs:
       - name: Error fallback step
         if: failure()
         run: echo "Something went wrong in the previous steps!"
+  matrix:
+    name: matrix
+    runs-on: ubuntu-latest
+    strategy:
+      max-parallel: 2
+      matrix:
+        version: [10, 12, 14]
+        os: [ubuntu-latest, windows-latest]
+
+jobs:
+  testy-aplikacji:
+    strategy:
+      matrix:
+        node: [18, 20, 22]
+        version: [1,2,3]
+        # os: [ubuntu-latest, windows-latest]
+      # runs-on: ${{ matrix.os }} # Dynamicznie wybiera system
+    steps:
+      - uses: actions/checkout@v4
+      - name: Użyj Node.js ${{ matrix.node }}
+        run: echo "Node:  ${{ matrix.node }}-${{ matrix.version }}"
+        
