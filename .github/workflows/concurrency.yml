@@ -1,0 +1,68 @@
+name: Concurrency - Dynamic Deployment Pipeline
+
+on:
+  push:
+    branches:
+      - master
+      - develop
+
+# Prevent overlapping deployments on the same branch
+concurrency:
+  group: deploy-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  # 1. Shared build step for both branches
+  build:
+    name: Build Application
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Install dependencies
+        run: echo "npm install"
+
+      - name: Run Tests
+        run: echo "npm test"
+
+      - name: Build project
+        run: echo "npm run build"
+
+  # 2. Dynamic Deployment Job
+  deploy:
+    name: Deploy to Environment
+    needs: build
+    runs-on: ubuntu-latest
+    
+    # Map branches to specific GitHub Environments
+    environment:
+      name: ${{ github.ref_name == 'master' && 'Production' || 'Development' }}
+      url: ${{ github.ref_name == 'master' && 'https://prod.myapp.com' || 'https://dev.myapp.com' }}
+
+    steps:
+      - name: Display Deployment Info
+        run: |
+          echo "🚀 Deploying to: ${{ github.ref_name == 'master' && 'PROD' || 'DEV' }} environment"
+          echo "Target Branch: ${{ github.ref_name }}"
+          echo "Triggered by: ${{ github.actor }}"
+
+      # Conditional logic within steps
+      - name: Production specific step
+        if: github.ref_name == 'master'
+        run: echo "Performing heavy-duty production tasks..."
+
+      - name: Development specific step
+        if: github.ref_name == 'develop'
+        run: echo "Performing rapid development sync..."
+
+      # Report to Step Summary
+      - name: Generate Summary
+        if: always()
+        run: |
+          echo "## 🚀 Deployment Status" >> $GITHUB_STEP_SUMMARY
+          echo "| Metric | Value |" >> $GITHUB_STEP_SUMMARY
+          echo "| :--- | :--- |" >> $GITHUB_STEP_SUMMARY
+          echo "| Environment | ${{ github.ref_name == 'master' && 'PRODUCTION' || 'DEVELOPMENT' }} |" >> $GITHUB_STEP_SUMMARY
+          echo "| Branch | ${{ github.ref_name }} |" >> $GITHUB_STEP_SUMMARY
+          echo "| Status | ✅ Success |" >> $GITHUB_STEP_SUMMARY
