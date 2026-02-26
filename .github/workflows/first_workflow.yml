@@ -89,10 +89,10 @@ jobs:
     # if: success() || cancelled() 
     steps:
       - name: condition_1
-        if: runner.os == 'ubuntu-latest'
+        if: runner.os == 'ubuntu'
         run: echo "The operating system on the runner is $env:RUNNER_OS."
       - name: conditional_2
-        if: runner.os != 'ubuntu-latest'
+        if: runner.os != 'ubuntu'
         run: echo "The operating system on the runner is not Ubuntu, it's $RUNNER_OS."
       - name: conditional_3_branch_maine
         if: github.ref == 'refs/heads/main'
