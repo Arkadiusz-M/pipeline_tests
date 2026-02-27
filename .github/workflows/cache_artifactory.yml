@@ -1,0 +1,56 @@
+name: Cache_and_Artifact
+
+on:
+  workflow_dispatch: # Allows manual trigger from the UI
+
+permissions:
+  contents: write
+
+jobs:
+  build-and-store:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      # --- SECTION 1: CACHE (For future runs) ---
+      - name: Handle Cache
+        id: cache-step
+        uses: actions/cache@v4
+        with:
+          path: my_storage/
+          key: build-cache-${{ github.run_id }} # Unique key for this test
+          restore-keys: |
+            build-cache-
+
+      # --- SECTION 2: FILE CREATION ---
+      - name: Create Data File
+        run: |
+          mkdir -p my_storage
+          echo "Build Version: 1.0.${{ github.run_number }}" > my_storage/build_info.txt
+          echo "Generated on: $(date)" >> my_storage/build_info.txt
+
+      # --- SECTION 3: ARTIFACT (For you to download) ---
+      - name: Upload Local Artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: deployment-package
+          path: my_storage/build_info.txt
+          retention-days: 5 # How long to keep it (optional)
+
+      # --- SECTION 4: REMOTE REPOSITORY (Concept) ---
+      # This is how you would send it "globally" to Artifactory or GitHub Packages
+      - name: Push to Remote Registry (Mockup)
+        run: |
+          echo "In a real scenario, I would run: npm publish or docker push here."
+          echo "This would make the file available to OTHER repositories."
+
+      # --- SECTION 5: UPDATE SUMMARY ---
+      - name: Generate Summary
+        if: always()
+        run: |
+          echo "### 📦 Workflow Storage Summary" >> $GITHUB_STEP_SUMMARY
+          echo "| Type | Purpose | Availability |" >> $GITHUB_STEP_SUMMARY
+          echo "| :--- | :--- | :--- |" >> $GITHUB_STEP_SUMMARY
+          echo "| **Cache** | Speed up next run | This Repo Only |" >> $GITHUB_STEP_SUMMARY
+          echo "| **Artifact** | For you to download | This Run Only |" >> $GITHUB_STEP_SUMMARY
