@@ -21,6 +21,8 @@ jobs:
       name: 'Production'   # This triggers the Manual Approval check
       url: https://jira.com/task/ABC-123
       # description: Please provide a business justification
+      # name: ${{ startsWith(github.ref, 'refs/tags/v-prod') && 'Production' || 'Staging' }}
+      # url: ${{ vars.APP_URL }}
     steps:
       - name: Deploy
         run: echo "Deploying to Production only after someone clicks APPROVE"
