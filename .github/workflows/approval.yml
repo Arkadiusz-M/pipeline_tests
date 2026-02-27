@@ -13,6 +13,17 @@ jobs:
       - name: Build Application
         run: echo "Building..."
 
+  # notify-request:
+  #     runs-on: ubuntu-latest
+  #     steps:
+  #       - name: Slack Notification for Approval
+  #         uses: rtCamp/action-slack-notify@v2
+  #         env:
+  #           SLACK_WEBHOOK: ${{ secrets.SLACK_WEBHOOK_URL }}
+  #           SLACK_TITLE: "🚀 Deployment Approval Required"
+  #           SLACK_MESSAGE: "New build is waiting for approval to PROD. [Review here](${{ github.server_url }}/${{ github.repository }}/actions/runs/${{ github.run_id }})"
+  #           SLACK_COLOR: "#EBB424" # Yellow for waiting
+
   deploy-to-prod:
     name: deploy-to-prod
     runs-on: ubuntu-latest
