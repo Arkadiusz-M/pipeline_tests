@@ -26,3 +26,4 @@ jobs:
     steps:
       - name: Deploy
         run: echo "Deploying to Production only after someone clicks APPROVE"
+        # run: echo "Deploying to ${{ startsWith(github.ref, 'refs/tags/v-prod') && 'PROD' || 'STAGE' }}"
