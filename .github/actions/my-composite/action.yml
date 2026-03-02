@@ -1,0 +1,7 @@
+name: Composite Tool
+description: Composite Tool
+runs:
+  using: "composite"
+  steps:
+    - run: echo "Running logic directly on the runner host"
+      shell: bash

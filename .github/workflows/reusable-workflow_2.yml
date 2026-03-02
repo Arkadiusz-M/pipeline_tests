@@ -1,0 +1,9 @@
+name: Reusable Job
+on:
+  workflow_call:
+
+jobs:
+  reusable-logic:
+    runs-on: ubuntu-latest
+    steps:
+      - run: echo "I am a standalone Job!"

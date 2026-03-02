@@ -1,0 +1,5 @@
+name: Docker Tool
+description: Docker Tool
+runs:
+  using: "docker"
+  image: "Dockerfile"
