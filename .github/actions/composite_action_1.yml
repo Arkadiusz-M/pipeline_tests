@@ -1,0 +1,21 @@
+name: 'Simple Hello'
+description: 'Prints some debug info'
+inputs:
+  who-to-greet:
+    description: 'Name of the person'
+    required: true
+    default: 'Developer'
+
+runs:
+  using: "composite"
+  steps:
+    - name: Greet
+      run: echo "Hello ${{ inputs.who-to-greet }}!"
+      shell: bash
+
+    - name: System Info
+      run: |
+        echo "Current directory: $(pwd)"
+        echo "OS version:"
+        cat /etc/os-release | grep PRETTY_NAME
+      shell: bash

@@ -1,0 +1,17 @@
+name: Reusabe_workflow_1
+
+on:
+  workflow_dispatch:
+
+jobs:
+  reusabe_workflow_job_1:
+    name: reusabe_workflow_job_1
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Use my custom action
+        uses: ./.github/composite_action_1
+        with:
+          who-to-greet: 'Gemini User'
+
