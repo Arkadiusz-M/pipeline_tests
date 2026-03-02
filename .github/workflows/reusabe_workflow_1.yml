@@ -11,7 +11,7 @@ jobs:
       - uses: actions/checkout@v4
 
       - name: Use my custom action
-        uses: ./.github/composite_action_1
+        uses: ./.github/actions/
         with:
           who-to-greet: 'Gemini User'
 
