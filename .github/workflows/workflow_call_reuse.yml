@@ -1,0 +1,16 @@
+name: workflow_call_reuse
+run-name: "Workflow_call_reuse @${{ github.actor }}"
+description: "Workflow_call_reuse"
+on:
+  workflow_call:
+    inputs:
+      username:
+        required: true
+        type: string
+
+jobs:
+  display-greeting:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Welcoming
+        run: echo "Hello ${{ inputs.username }}! It works!"

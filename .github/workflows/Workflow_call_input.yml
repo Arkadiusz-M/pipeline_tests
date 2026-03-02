@@ -1,0 +1,16 @@
+name: Workflow_call_input
+run-name: "Workflow_call @${{ github.actor }}"
+description: "Workflow_call_input"
+
+on:
+  workflow_dispatch:
+    inputs:
+      username:
+        description: 'Put your name'
+        default: 'Guest'
+
+jobs:
+  call-greet-logic:
+    uses: ./.github/workflows/workflow_call_reuse.yml
+    with:
+      username: ${{ inputs.username }}
