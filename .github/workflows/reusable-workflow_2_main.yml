@@ -1,4 +1,4 @@
-name: The Great Comparison
+name: reusable-workflow_2_main
 
 on: workflow_dispatch
 
